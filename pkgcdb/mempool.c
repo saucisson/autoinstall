@@ -184,7 +184,7 @@ mempool_dump_rec(struct mempool *mp, int count, int siz, int fd,
 	buf = mp->mem;
 	len = mp->count * mp->siz;
     }
-    DPRINT(("-data: %d * %d => (%d)\n", mp->count, mp->siz, len));
+    DPRINT(("-data: %d * %d => (%d)\n", mp->count, (int)mp->siz, len));
     e = write(fd, buf, len);
     if (serialize != NULL)
 	free(buf);
@@ -243,7 +243,7 @@ mempool_restore(int fd,
 	PERROR(("read siz"));
 	abort();
     }
-    DPRINT(("siz %d, ", mp->siz));
+    DPRINT(("siz %d, ", (unsigned int)mp->siz));
     mp->mem = malloc((mp->count + margin) * mp->siz);
     if (mp->mem == NULL) {
 	DPRINT(("mempool_restore: not enough memory for mempool contents\n"));

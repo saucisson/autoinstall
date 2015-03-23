@@ -10,6 +10,7 @@ static char pkgtab_rcsid[] __attribute__((unused)) = "$Id: pkgtab.c,v 1.1 2000/0
 #include <string.h>
 #include <limits.h>
 #include <assert.h>
+#include <stdlib.h>
 
 PKGCDB_VARDEF pkg_id pkg_null;
 

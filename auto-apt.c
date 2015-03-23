@@ -111,7 +111,7 @@ load_library_symbol(char *name)
 
     handle = dlopen (libcpath, RTLD_LAZY);
     if (!handle) {
-	DPRINT((dlerror()));
+	DPRINT(("%s", dlerror()));
 	return NULL;
     }
     ft->fptr = dlsym(handle, ft->name);
@@ -167,27 +167,25 @@ static int
 detectdb_lock()
 {
     struct flock fl;
-    if (detectdb_lock != NULL) {
-	int fd = open_internal(detectdb_lockfile, 
-			       O_RDWR|O_CREAT|O_TRUNC, 0660);
-	if (fd == -1) {
-	    abort();
-	    return -1;
-	}
-    again:
-	fl.l_type = F_WRLCK;
-	fl.l_whence = SEEK_SET;
-	fl.l_start = 0;
-	fl.l_len = 1;
-	if (fcntl(fd, F_SETLK, &fl) == -1) {
-	    if (errno == EWOULDBLOCK || errno == EAGAIN || errno == EACCES)
-		goto again; 
-	    close(fd);
-	    abort();
-	    return -1;
-	}
-	return fd;
+    int fd = open_internal(detectdb_lockfile, 
+                           O_RDWR|O_CREAT|O_TRUNC, 0660);
+    if (fd == -1) {
+        abort();
+        return -1;
     }
+again:
+    fl.l_type = F_WRLCK;
+    fl.l_whence = SEEK_SET;
+    fl.l_start = 0;
+    fl.l_len = 1;
+    if (fcntl(fd, F_SETLK, &fl) == -1) {
+        if (errno == EWOULDBLOCK || errno == EAGAIN || errno == EACCES)
+            goto again; 
+        close(fd);
+        abort();
+        return -1;
+    }
+    return fd;
     abort();
     return -1;
 }
@@ -196,23 +194,21 @@ static void
 detectdb_unlock(int fd)
 {
     struct flock fl;
-    if (detectdb_lock != NULL) {
-	if (fd >= 0) {
-	    fl.l_type = F_UNLCK;
-	    fl.l_whence = SEEK_SET;
-	    fl.l_start = 0;
-	    fl.l_len = 1;
-	    if (fcntl(fd, F_SETLK, &fl) == -1) {
-		/* cannot happen? */
-	    }
-	    close(fd);
-	}
-	unlink(detectdb_lockfile);
+    if (fd >= 0) {
+        fl.l_type = F_UNLCK;
+        fl.l_whence = SEEK_SET;
+        fl.l_start = 0;
+        fl.l_len = 1;
+        if (fcntl(fd, F_SETLK, &fl) == -1) {
+            /* cannot happen? */
+        }
+        close(fd);
     }
+    unlink(detectdb_lockfile);
 }
 
 static int
-detect_package(const char *filename, char *func)
+detect_package(const char *filename, const char *func)
 {
     int e = 0;
     struct path_node *pn;
@@ -860,7 +856,9 @@ execve(const  char  *filename, char *const argv [], char *const envp[])
     auto_apt_setup();
  again:
     DPRINT(("execve: filename=%s \n", filename));
-    if (!apt && detectdb_file) { detect_package(filename, __FUNCTION__); }
+    if (!apt && detectdb_file) {
+        detect_package(filename, __FUNCTION__);
+    }
     __execve = load_library_symbol("execve");
     if (__execve == NULL) {
 	errno = EINVAL;

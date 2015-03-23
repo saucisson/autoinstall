@@ -39,6 +39,7 @@ PKGCDB_API struct path_node *pathnode_chain(PathNodeTree pnt,
 PKGCDB_API struct path_node *pathnode_retrieve(PathNodeTree pnt,
 					       struct path_node *pn,
 					       char *path);
+#ifndef PKGCDB_AUTOAPT
 PKGCDB_API void pathnode_traverse(PathNodeTree pnt,
 				  char *path, struct path_node *pn,
 				  void (*func)(PathNodeTree pnt,
@@ -46,6 +47,7 @@ PKGCDB_API void pathnode_traverse(PathNodeTree pnt,
 					       struct path_node *pn, 
 					       void *arg),
 				  void *arg);
+#endif
 
 #ifndef PKGCDB_AUTOAPT
 PKGCDB_API StrTable pathnode_strtab(PathNodeTree pnt);

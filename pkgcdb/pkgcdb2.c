@@ -8,7 +8,6 @@
 static char pkgcdb2_rcsid[] __attribute__((unused)) = "$Id: pkgcdb2.c,v 1.4 2000/07/13 16:34:30 ukai Exp $";
 
 #include "pkgcdb2.h"
-#include "pathnode.h"
 #include "strtab.h"
 #include "mempool.h"
 #include <stdio.h>
@@ -178,7 +177,7 @@ pkgcdb_get(PathNodeTree pnt, char *file, char **matchfile, char **ext)
 		pathnode_pathname(pnt, pn), 
 		pathnode_packagename(pnt, match), file));
     }
-    DPRINT(("last?%s (%d)\n", file, p - file));
+    DPRINT(("last?%s (%ld)\n", file, p - file));
     if (p - file >= 1) {
 	pn = pathnode_retrieve(pnt, pn, file);
 	if (pn == NULL) {

@@ -118,10 +118,10 @@ is_validchar(int c)
     return validchartab[(c & 0x0FF)];
 }
 
-static unsigned char *
+static char *
 get_line(FILE *f)
 {
-    unsigned char *buf  = NULL;
+    char *buf  = NULL;
     char *new_buf  = NULL;
     size_t buf_size = 0;
     size_t last = 0;
@@ -148,7 +148,7 @@ get_line(FILE *f)
 int
 main(int argc, char **argv)
 {
-    unsigned char *buf = NULL;
+    char *buf = NULL;
     char *cmd;
     char *dbfile = PKGCDB_FILE;
     char *pathlist = PKGCDB_PATH_LIST;
@@ -218,8 +218,8 @@ main(int argc, char **argv)
 	min_t = 9999.9; max_t = 0.0;
 	max_file = NULL;
 	while (!feof(stdin)) {
-	    unsigned char *fname, *pkg;
-	    unsigned char *p;
+	    char *fname, *pkg;
+	    char *p;
 	    int nslash = 0;
 
 	    buf = get_line(stdin);

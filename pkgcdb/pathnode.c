@@ -287,12 +287,14 @@ pathnode_retrieve(PathNodeTree pnt, struct path_node *pn, char* path)
     return NULL;
 }
 
-PKGCDB_API void
-pathnode_traverse(PathNodeTree pnt,
-		  char *path, struct path_node *pn, 
-		  void (*func)(PathNodeTree pnt,
-			       char *path, struct path_node *pn, void *arg),
-		  void *arg)
+#ifndef PKGCDB_AUTOAPT
+PKGCDB_API void pathnode_traverse(PathNodeTree pnt,
+				  char *path, struct path_node *pn,
+				  void (*func)(PathNodeTree pnt,
+					       char *path, 
+					       struct path_node *pn, 
+					       void *arg),
+				  void *arg)
 {
     char *npath;
     if (path == NULL) {
@@ -311,6 +313,7 @@ pathnode_traverse(PathNodeTree pnt,
     if (pn->down)
 	pathnode_traverse(pnt, npath, pn->down, func, arg);
 }
+#endif
 
 #ifndef PKGCDB_AUTOAPT
 PKGCDB_API StrTable
@@ -392,10 +395,10 @@ pathnode_serialize(void *buf, void *ptr, int count, int siz, void *arg)
     pn0 = (struct path_node *)ptr;
     for (i = 0; i < count; i++) {
 	pn->pathname = NULL; /* clear */
-	if (pn->left) pn->left = (void *)mempool_index(pnt->p_st, pn0->left);
-	if (pn->right) pn->right = (void *)mempool_index(pnt->p_st, pn0->right);
-	if (pn->down) pn->down = (void *)mempool_index(pnt->p_st, pn0->down);
-	if (pn->dups) pn->dups = (void *)mempool_index(pnt->p_st, pn0->dups);
+	if (pn->left) pn->left = (void *)mempool_fetch(pnt->p_st, mempool_index(pnt->p_st, pn0->left));
+	if (pn->right) pn->right = (void *)mempool_fetch(pnt->p_st, mempool_index(pnt->p_st, pn0->right));
+	if (pn->down) pn->down = (void *)mempool_fetch(pnt->p_st, mempool_index(pnt->p_st, pn0->down));
+	if (pn->dups) pn->dups = (void *)mempool_fetch(pnt->p_st, mempool_index(pnt->p_st, pn0->dups));
 	pn++; pn0++;
     }
     return count * siz;
@@ -410,10 +413,18 @@ pathnode_unserialize(struct mempool*mp, void *ptr, int count, int siz,
     /* PathNodeTree pnt = (PathNodeTree)arg; */
     struct path_node *pn = ptr;
     for (i = 0; i < count; i++) {
-	if (pn->left) pn->left = mempool_fetch(mp, (int)pn->left);
-	if (pn->right) pn->right = mempool_fetch(mp, (int)pn->right);
-	if (pn->down) pn->down = mempool_fetch(mp, (int)pn->down);
-	if (pn->dups) pn->dups = mempool_fetch(mp, (int)pn->dups);
+	if (pn->left) {
+            pn->left = mempool_fetch(mp, mempool_index(mp, pn->left));
+        }
+	if (pn->right) {
+            pn->right = mempool_fetch(mp, mempool_index(mp, pn->right));
+        }
+	if (pn->down) {
+            pn->down = mempool_fetch(mp, mempool_index(mp, pn->down));
+        }
+	if (pn->dups) {
+            pn->dups = mempool_fetch(mp, mempool_index(mp, pn->dups));
+        }
 	pn++;
     }
 }
