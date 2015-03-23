@@ -1,0 +1,5 @@
+lib
+etc/auto-apt
+usr/bin
+usr/lib/auto-apt
+var/cache/auto-apt

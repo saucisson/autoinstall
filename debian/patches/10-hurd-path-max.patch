@@ -1,0 +1,50 @@
+From 2ac160827d17f210dcc0d03470047ea6260c510f Mon Sep 17 00:00:00 2001
+From: Jari Aalto <jari.aalto@cante.net>
+Date: Thu, 11 Mar 2010 17:01:58 +0200
+Subject: [PATCH] Fix FTBFS(hurd-i386): PATH_MAX undeclared
+
+Signed-off-by: Jari Aalto <jari.aalto@cante.net>
+---
+ auto-apt.c       |    5 +++++
+ pkgcdb/pkgcdb2.c |    6 ++++++
+ 2 files changed, 11 insertions(+), 0 deletions(-)
+
+diff --git a/auto-apt.c b/auto-apt.c
+index 1895440..5b1ddfe 100644
+--- a/auto-apt.c
++++ b/auto-apt.c
+@@ -23,8 +23,13 @@ static char auto_apt_rcsid[] __attribute__ ((unused)) = "$Id: auto-apt.c,v 1.28
+ #include <sys/stat.h>
+ #include <fcntl.h>
+ #include <string.h>
++
+ #include <limits.h>
+ 
++#ifndef PATH_MAX
++#define PATH_MAX 10000 /* Hurd does not define PATH_MAX in limits.h */
++#endif
++
+ #define PKGCDB_AUTOAPT 1
+ #include "pkgcdb/debug.h"
+ #include "pkgcdb/pkgcdb2.h"
+diff --git a/pkgcdb/pkgcdb2.c b/pkgcdb/pkgcdb2.c
+index 9c3915d..5209caf 100644
+--- a/pkgcdb/pkgcdb2.c
++++ b/pkgcdb/pkgcdb2.c
+@@ -19,7 +19,13 @@ static char pkgcdb2_rcsid[] __attribute__((unused)) = "$Id: pkgcdb2.c,v 1.4 2000
+ #include <sys/time.h>
+ #include <sys/file.h>
+ #include <fcntl.h>
++
+ #include <limits.h>
++
++#ifndef PATH_MAX
++#define PATH_MAX 50000 /* Hurd does not define PATH_MAX in limits.h */
++#endif
++
+ #include <string.h>
+ #include <ctype.h>
+ #include <assert.h>
+-- 
+1.7.0
+

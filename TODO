@@ -1,0 +1,40 @@
+$Id: TODO,v 1.19 2000/07/16 15:27:37 ukai Exp $
+
+  auto-apt-installer
+	cool GUI
+
+  support commands.list(?) to control auto-apt
+	<command>	<env>
+    eg  dpkg		AUTO_APT_SIMULATE=yes
+
+  syslog?
+  remove debug message
+	
+  auto-apt add (user to /etc/sudoers)
+  dynamic link database module
+  redirect apt-get message?; interactive maintainer script ?
+    auto-apt log:	fifo or pty? ~/.auto-apt/$$
+  tty only auto apt-get
+
+  hook() {
+    if (!apt && detect) detect_package(filename, func, 0); /* exec */
+    result = origrunc();
+    if (!apt && detect) detect_package(filename, func, result); /* other,err */
+    if (result < 0) { ... }
+  }
+
+
+  hook unlink(2) to dpkg -r
+  fake readdir?
+  fake man(1) from /bin,/usr/bin..
+  user filter
+
+  normalize path?
+  multi packages: follow diversion/alternatives?
+
+  record all file access?
+
+  pkgcdb put; "replace data" option
+
+  auto-menu, auto-emacsen
+

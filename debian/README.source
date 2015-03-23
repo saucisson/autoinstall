@@ -1,0 +1,7 @@
+Sources for Debian
+------------------
+
+This package uses quilt. See more information at
+/usr/share/doc/quilt/README.source
+
+ -- Jari Aalto <jari.aalto@cante.net>, Thu, 11 Mar 2010 17:26:25 +0200

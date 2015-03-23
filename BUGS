@@ -1,0 +1,48 @@
+$Id: BUGS,v 1.17 2001/06/19 15:07:43 ukai Exp $
+
+Bugs, but I'd like to say it's a feature:)
+
+  if you put the directory in PATH, which doesn't exists and
+  is provided by some uninstalled package, then the package 
+  will be installed unintentionally if non exists program is called.
+  So, don't put non-exist dir in your PATH
+
+  suid root process can't be traced by auto-apt. (because of 
+  LD_PRELOAD security problems)
+
+  files created by maintainer scripts, that is, files not listed
+  in Contents-i386.gz, may be considered as in different package.
+  (for examples, files under /usr/share/emacs20/site-lisp/)
+
+  aggregated file are not hit by search (because it weren't recorded in db)
+
+  shell usually has own hash table, so usually uninstalled command
+  will be "command not found" instead auto apt-get?
+  (zsh try to correct cmd name?)
+
+  can't trace libc internal calls?
+
+Bugs to be fixed:
+  Bug#94105: support ssh method
+
+  if package which has interactive maintainer script are installed
+  with no tty, it probably won't work.
+  => Workaround, if it runs in X environment, apt-get run in
+     x-terminal-emulator
+     otherwise, if no tty, auto-apt will invoke like: 
+          apt-get install pkg </dev/null > /dev/null 2>&1
+
+  detect wrong packages in (in auto-apt debuild)
+    usr/lib/perl5/5.6/*
+    usr/lib/perl5/File/*
+    usr/lib/perl5/IO/*
+    usr/share/perl5/File/*
+    usr/share/perl5/IO/*
+
+    usr/share/locale/* (in LANG=ja_JP.eucJP)
+
+  missing complete manual page
+
+  auto-apt debuild with fakeroot can't create file with owner root?
+
+

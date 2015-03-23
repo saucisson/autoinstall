@@ -1,0 +1,20 @@
+Source: auto-apt
+Section: admin
+Priority: optional
+Maintainer: Debian QA Group <packages@qa.debian.org>
+Standards-Version: 3.9.4
+Build-Depends: binutils, cpio, debhelper (>= 7.1), quilt
+
+Package: auto-apt
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Recommends: ${perl:Depends}, apt, sudo, wget, dpkg-dev, devscripts
+Suggests: x-terminal-emulator, libgtk-perl, build-essential
+Description: package search by file and on-demand package installation tool
+ auto-apt checks the file access of programs running within its
+ environments, and if a program tries to access a file known to
+ belong in an uninstalled package, auto-apt will install that
+ package using apt-get.  This feature requires apt and sudo to work.
+ .
+ It also provides simple database to search which package contains
+ a requested file.

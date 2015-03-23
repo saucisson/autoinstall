@@ -1,0 +1,30 @@
+From 31c17f29ad02f16675665a47e97f9f83ff9759c3 Mon Sep 17 00:00:00 2001
+From: Jari Aalto <jari.aalto@cante.net>
+Date: Thu, 11 Mar 2010 17:09:15 +0200
+Subject: [PATCH] auto-apt.sh: (update): remove --timestamping from wgetopt (Patch by Krzysztof Burghardt <krzysztof@burghardt.pl>)
+
+
+Signed-off-by: Jari Aalto <jari.aalto@cante.net>
+---
+ auto-apt.sh |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+ mode change 100644 => 100755 auto-apt.sh
+
+diff --git a/auto-apt.sh b/auto-apt.sh
+old mode 100644
+new mode 100755
+index 65b3efc..82d967c
+--- a/auto-apt.sh
++++ b/auto-apt.sh
+@@ -164,7 +164,7 @@ update() {
+ 	        fi
+ 	     fi
+ 	     # other options
+-	     wgetopt="--timestamping --continue --progress=bar:force"
++	     wgetopt="--continue --progress=bar:force"
+ 	     if test "$method" = "ftp"; then
+ 		passive_ftp="true"
+ 		eval `apt-config shell passive_ftp Acquire::ftp::Passive`
+-- 
+1.7.0
+
