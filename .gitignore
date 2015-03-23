@@ -1,2 +1,7 @@
 .bzr/
 .bzr-builddeb/
+*.o
+*.so
+*.a
+auto-apt-pkgcdb
+
