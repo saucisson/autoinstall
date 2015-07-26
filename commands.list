@@ -1,4 +1,0 @@
-# configuration for each command
-# NOT YET IMPLEMENTED
-#<path>	<argv0>	 <env>
-/usr/bin/dpkg	dpkg	AUTO_APT_SIMULATE=yes

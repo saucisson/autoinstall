@@ -1,49 +1,26 @@
-#
-# Makefile
-# $Id: Makefile,v 1.13 2001/12/19 16:36:05 ukai Exp $
-#
-DESTDIR=
-package=auto-apt
-SHLIBDIR=$(DESTDIR)/lib
-BINDIR=$(DESTDIR)/usr/bin
-LIBDIR=$(DESTDIR)/usr/lib/$(package)
-CACHEDIR=$(DESTDIR)/var/cache/$(package)
-ETCDIR=$(DESTDIR)/etc/$(package)
+#PREFIX=/usr/
+PREFIX=/home/alinard/projects/autoinstall/usr
+CFLAGS=-Wall -Wextra -O3
 
-DEFS=-DUSE_DETECT -DDEBUG
-CC=gcc
-CFLAGS=-g -Wall -finline-functions -Ipkgcdb $(DEFS)
+all: autoinstall.so
 
-all: auto-apt.so auto-apt-pkgcdb
+autoinstall.so: autoinstall.o
+	$(CC) -shared -o autoinstall.so autoinstall.o -lc -ldl -llua5.1
 
-auto-apt.so: auto-apt.o pkgcdb/pkgcdb2.a
-	$(CC) -shared -o auto-apt.so auto-apt.o -lc -ldl 
-
-auto-apt.o: auto-apt.c 
-	$(CC) $(CFLAGS) -fPIC -o auto-apt.o -c auto-apt.c
-
-auto-apt-pkgcdb: auto-apt-pkgcdb.o pkgcdb/pkgcdb2.a
-	$(CC) $(CFLAGS) -o auto-apt-pkgcdb auto-apt-pkgcdb.o pkgcdb/pkgcdb2.a
-
-pkgcdb/pkgcdb2.a:
-	(cd pkgcdb && \
-	 $(MAKE) pkgcdb2.a CC="$(CC)" DEFS="$(DEFS)" CFLAGS="$(CFLAGS)")
+autoinstall.o: src/autoinstall.c
+	$(CC) $(CFLAGS) -fPIC -o autoinstall.o -c src/autoinstall.c
 
 install: all
-	install -m 755 auto-apt.sh $(BINDIR)/auto-apt
-	install -m 755 auto-apt-pkgcdb $(LIBDIR)/
-	install -m 755 auto-apt-installer.pl $(LIBDIR)/auto-apt-installer
-	install -m 644 auto-apt.so $(SHLIBDIR)/
-	install -m 644 paths.list $(ETCDIR)/
-#	install -m 644 paths.list commands.list $(ETCDIR)/
+	install -m 755 -D src/autoinstall.sh 	$(PREFIX)/bin/autoinstall
+	install -m 755 -D src/server.lua 			$(PREFIX)/bin/autoinstall-server
+	install -m 644 -D autoinstall.so 			$(PREFIX)/lib/autoinstall.so
+	install -m 644 -D src/autoinstall.lua $(PREFIX)/share/autoinstall/autoinstall.lua
+	install -m 644 -D src/server.lua			$(PREFIX)/share/autoinstall/server.lua
 
 clean:
-	(cd pkgcdb && $(MAKE) clean)
-	-rm -f auto-apt.so auto-apt.o
-	-rm -f auto-apt-pkgcdb auto-apt-pkgcdb.o
+	-rm -f autoinstall.so autoinstall.o
+	-rm -f autoinstall.log autoinstall.port
 	-rm -rf cache
 
 distclean: clean
-	(cd pkgcdb && $(MAKE) distclean)
 	-rm -f *~ *.bak *.orig *.db *.o *.so
-
