@@ -130,7 +130,7 @@ auto_apt_setup()
     inited = 1;
     L = luaL_newstate ();
     luaL_openlibs (L);
-    luaL_dostring (L, "require \"autoinstall\"");
+    luaL_dostring (L, "require \"autoinstall.client\"");
     for (i = 0; i < NUM_APT_HOOK; i++) {
       apt_hook[i] = 0;
     }

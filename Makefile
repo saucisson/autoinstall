@@ -10,11 +10,10 @@ autoinstall.o: src/autoinstall.c
 	$(CC) $(CFLAGS) -fPIC -o autoinstall.o -c src/autoinstall.c
 
 install: all
-	install -m 755 -D src/autoinstall.sh 	$(PREFIX)/bin/autoinstall
-	install -m 755 -D src/server.lua 			$(PREFIX)/bin/autoinstall-server
-	install -m 644 -D autoinstall.so 			$(PREFIX)/lib/autoinstall.so
-	install -m 644 -D src/autoinstall.lua $(PREFIX)/share/autoinstall/autoinstall.lua
-	install -m 644 -D src/server.lua			$(PREFIX)/share/autoinstall/server.lua
+	install -m 755 -D src/autoinstall.sh 					$(PREFIX)/bin/autoinstall
+	install -m 644 -D autoinstall.so 							$(PREFIX)/lib/lua/5.1/autoinstall.so
+	install -m 644 -D src/autoinstall/client.lua	$(PREFIX)/share/lua5.1/autoinstall/client.lua
+	install -m 644 -D src/autoinstall/server.lua	$(PREFIX)/share/lua5.1/autoinstall/server.lua
 
 clean:
 	-rm -f autoinstall.so autoinstall.o
