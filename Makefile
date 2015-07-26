@@ -1,5 +1,4 @@
-#PREFIX=/usr/
-PREFIX=/home/alinard/projects/autoinstall/usr
+PREFIX=/usr/
 CFLAGS=-Wall -Wextra -O3
 
 all: autoinstall.so
