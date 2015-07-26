@@ -130,7 +130,7 @@ auto_apt_setup()
     inited = 1;
     L = luaL_newstate ();
     luaL_openlibs (L);
-    luaL_dofile (L, "autoinstall.lua");
+    luaL_dostring (L, "require \"autoinstall\"");
     for (i = 0; i < NUM_APT_HOOK; i++) {
       apt_hook[i] = 0;
     }
