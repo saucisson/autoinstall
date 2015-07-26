@@ -1,7 +1,5 @@
-.bzr/
-.bzr-builddeb/
 *.o
 *.so
 *.a
-auto-apt-pkgcdb
-
+*.src.rock
+autoinstall-?.*-*.rockspec
